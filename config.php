@@ -3,7 +3,7 @@
 
 $config = [
     'project'       => 'DVMXH2',
-    'version'       => '1.0.6',
+    'version'       => '1.2.6',
     'max_time_load' => 4
 ];
 
@@ -66,6 +66,8 @@ $config_listbank = [
     'UnitedOverseas',
     'KookminHN',
     'KookminHCM',
-    'COOPBANK'
+    'COOPBANK',
+    'EasyPaisa',
+    'JazzCash'
 
 ];

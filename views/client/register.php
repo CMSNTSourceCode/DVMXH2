@@ -151,7 +151,8 @@ $_SESSION['phrase'] = $builder->getPhrase(); ?>
     <script src="<?=base_url('public/themesbrand/');?>libs/feather-icons/feather.min.js"></script>
     <script src="<?=base_url('public/themesbrand/');?>js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="<?=base_url('public/themesbrand/');?>js/plugins.js"></script>
-
+    <!-- Sweet Alerts js -->
+    <script src="<?=base_url('public/themesbrand/');?>libs/sweetalert2/sweetalert2.min.js"></script>
     <!-- particles js -->
     <script src="<?=base_url('public/themesbrand/');?>libs/particles.js/particles.js"></script>
     <!-- particles app js -->
@@ -183,12 +184,18 @@ $("#btnRegister").on("click", function() {
         },
         success: function(respone) {
             if (respone.status == 'success') {
-                cuteToast({
-                    type: "success",
-                    message: respone.msg,
-                    timer: 5000
+                Swal.fire({
+                    title: '<?=__('Thành công !');?>',
+                    text: respone.msg,
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '<?=BASE_URL('');?>';
+                    }
                 });
-                setTimeout("location.href = '<?=BASE_URL('');?>';", 100);
+                location.href = '<?=BASE_URL('');?>';
             } else {
                 cuteToast({
                     type: "error",

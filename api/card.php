@@ -48,6 +48,7 @@ if(isset($_GET['request_id']) && isset($_GET['callback_sign'])){
             'update_date'    => gettime()
         ), " `id` = '".$row['id']."' ");
         $User->AddCredits($row['user_id'], $price, "Nạp thẻ cào Seri ".$row['serial']." - Pin ".$row['pin']." ");
+        $CMSNT->cong("users", "total_money", $price, " `id` = '".$row['user_id']."' ");
         die('payment.success');
     }
     else{

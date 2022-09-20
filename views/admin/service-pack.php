@@ -59,6 +59,7 @@ require_once(__DIR__.'/../../models/is_admin.php');
 require_once(__DIR__.'/header.php');
 require_once(__DIR__.'/sidebar.php');
 require_once(__DIR__.'/nav.php');
+require_once(__DIR__.'/../../models/is_license.php');
 ?>
 <?php
 if (isset($_POST['AddServicePack'])) {
@@ -72,6 +73,7 @@ if (isset($_POST['AddServicePack'])) {
         die('<script type="text/javascript">if(!alert("Vui lòng chọn dịch vụ hợp lệ!")){window.history.back().location.reload();}</script>');
     }
     $isInsert = $CMSNT->insert("service_packs", [
+        'server'        => 'me',
         'name'          => check_string($_POST['name']),
         'service_id'    => check_string($_POST['service_id']),
         'price'         => check_string($_POST['price']),
@@ -248,7 +250,17 @@ if (isset($_POST['AddServicePack'])) {
                                                         id="show_comment<?=$row['id'];?>" value="1"
                                                         <?=$row['show_comment'] == 1 ? 'checked' : '';?>>
                                                     <label for="show_comment<?=$row['id'];?>"
-                                                        class="custom-control-label">Hiển thị ô nhập comment</label>
+                                                        class="custom-control-label">Hiển thị ô nhập comment/review/checkin (tính giá theo nội dung)</label>
+                                                </div>
+                                            </div> 
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input show_review<?=$row['id'];?>"
+                                                        type="checkbox" onchange="updateForm(`<?=$row['id'];?>`)"
+                                                        id="show_review<?=$row['id'];?>" value="1"
+                                                        <?=$row['show_review'] == 1 ? 'checked' : '';?>>
+                                                    <label for="show_review<?=$row['id'];?>"
+                                                        class="custom-control-label">Hiển thị ô review/comment/checkin (tính giá theo số lượng)</label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -259,6 +271,26 @@ if (isset($_POST['AddServicePack'])) {
                                                         <?=$row['show_camxuc'] == 1 ? 'checked' : '';?>>
                                                     <label for="show_camxuc<?=$row['id'];?>"
                                                         class="custom-control-label">Hiển thị ô chọn cảm xúc</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input show_viplike<?=$row['id'];?>"
+                                                        type="checkbox" onchange="updateForm(`<?=$row['id'];?>`)"
+                                                        id="show_viplike<?=$row['id'];?>" value="1"
+                                                        <?=$row['show_viplike'] == 1 ? 'checked' : '';?>>
+                                                    <label for="show_viplike<?=$row['id'];?>"
+                                                        class="custom-control-label">Hiển thị ô chọn viplike</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input show_eye<?=$row['id'];?>"
+                                                        type="checkbox" onchange="updateForm(`<?=$row['id'];?>`)"
+                                                        id="show_eye<?=$row['id'];?>" value="1"
+                                                        <?=$row['show_eye'] == 1 ? 'checked' : '';?>>
+                                                    <label for="show_eye<?=$row['id'];?>"
+                                                        class="custom-control-label">Hiển thị ô chọn mắt</label>
                                                 </div>
                                             </div>
                                         </td>
@@ -318,7 +350,10 @@ function updateForm(id) {
             content: $("#content" + id).val(),
             display: $('.display' + id + ':checked').val(),
             show_comment: $('.show_comment' + id + ':checked').val(),
-            show_camxuc: $('.show_camxuc' + id + ':checked').val()
+            show_camxuc: $('.show_camxuc' + id + ':checked').val(),
+            show_viplike: $('.show_viplike' + id + ':checked').val(),
+            show_eye: $('.show_eye' + id + ':checked').val(),
+            show_review: $('.show_review' + id + ':checked').val()
         },
         success: function(respone) {
             if (respone.status == 'success') {

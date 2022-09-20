@@ -66,16 +66,14 @@ if (isset($_POST['action'])) {
             'createdate'    => gettime(),
             'action'        => '[Warning] '.__('Đăng nhập thành công')
         ]);
-        $new_token = md5(random('QWERTYUIOPASDGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789', 6).time());
         $CMSNT->update("users", [
             'ip'        => myip(),
             'time_request' => time(),
             'time_session' => time(),
-            'device'    => $Mobile_Detect->getUserAgent(),
-            'token'     => $new_token
+            'device'    => $Mobile_Detect->getUserAgent()
         ], " `id` = '".$getUser['id']."' ");
-        setcookie("token", $new_token, time() + $CMSNT->site('session_login'), "/");
-        $_SESSION['login'] = $new_token;
+        setcookie("token", $getUser['token'], time() + $CMSNT->site('session_login'), "/");
+        $_SESSION['login'] = $getUser['token'];
         die(json_encode(['status' => 'success','msg' => __('Đăng nhập thành công!')]));
     }
 
@@ -215,7 +213,7 @@ if (isset($_POST['action'])) {
         }
         $isUpdate = $CMSNT->update("users", [
             'password'  => isset($_POST['newpassword']) ? TypePassword(check_string($_POST['newpassword'])) : null,
-            'token'     => md5(random('QWERTYUIOPASDGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789', 6).time())
+            'token'     => md5(random('QWERTYUIOPASDGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789', 12).time())
         ], " `token` = '".check_string($_POST['token'])."' ");
         if ($isUpdate) {
             $CMSNT->insert("logs", [

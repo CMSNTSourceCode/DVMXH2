@@ -122,7 +122,6 @@ $users = $CMSNT->get_list("SELECT * FROM `users` ORDER BY id DESC  ");
                                 <div class="row mb-2">
                                     <div class="col-sm-6">
                                         <a onclick="exportExcel()" href="javascript:;" type="button" class="btn btn-success btn-sm"><i class="fas fa-file-csv mr-1"></i>XUẤT EXCEL</a>
-                                        <a onclick="resetTopNap()" href="javascript:;" type="button" class="btn btn-info btn-sm"><i class="fas fa-funnel-dollar mr-1"></i>RESET TOP NẠP</a>
                                     </div>
                                     <div class="col-sm-6">
                                         <button class="float-right btn btn-danger btn-sm" type="button"
@@ -217,47 +216,6 @@ require_once(__DIR__.'/footer.php');
 
 
 <script type="text/javascript">
-function resetTopNap() {
-    cuteAlert({
-        type: "question",
-        title: "CẢNH BÁO",
-        message: "Hệ thống sẽ reset lại top nạp tiền của toàn bộ user nếu bạn nhấn Đồng Ý",
-        confirmText: "<?=__('Đồng Ý');?>",
-        cancelText: "<?=__('Hủy');?>"
-    }).then((e) => {
-        if (e) {
-            $.ajax({
-                url: "<?=BASE_URL("ajaxs/admin/reset.php");?>",
-                method: "POST",
-                dataType: "JSON",
-                data: {
-                    type: "resetTopNap"
-                },
-                success: function(respone) {
-                    if (respone.status == 'success') {
-                        cuteToast({
-                            type: "success",
-                            message: respone.msg,
-                            timer: 5000
-                        });
-                        location.reload();
-                    } else {
-                        cuteAlert({
-                            type: "error",
-                            title: "Error",
-                            message: respone.msg,
-                            buttonText: "Okay"
-                        });
-                    }
-                },
-                error: function() {
-                    alert(html(response));
-                    location.reload();
-                }
-            });
-        }
-    })
-}
 function exportExcel() {
     cuteAlert({
         type: "question",

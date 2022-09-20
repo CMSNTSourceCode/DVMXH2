@@ -2,11 +2,12 @@
     die('The Request Not Found');
 }?>
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-layout-style="default" data-sidebar-size="lg">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="<?=url();?>" />
     <title><?=isset($body['title']) ? $body['title'] : $CMSNT->site('title');?></title>
     <meta name="description" content="<?=isset($body['desc']) ? $body['desc'] : $CMSNT->site('desc');?>" />
     <meta name="keywords" content="<?=isset($body['keyword']) ? $body['keyword'] : $CMSNT->site('keyword');?>">
@@ -91,8 +92,11 @@ body{
     color: #c0c0c0;
 }
 [data-topbar=dark] #page-topbar {
-    background-color: linear-gradient(<?=$CMSNT->site('theme_color'); ?>, <?=$CMSNT->site('theme_color'); ?>, <?=$CMSNT->site('theme_color2'); ?>);
-    border-color: <?=$CMSNT->site('theme_color'); ?>;
+    background-color: <?=$CMSNT->site('theme_color'); ?>;
+    border-color: white;
+}
+[data-topbar=dark] .topbar-user {
+    background-color: <?=$CMSNT->site('theme_color'); ?>;
 }
 .navbar-menu .navbar-nav .nav-link {
     display: -webkit-box;
@@ -113,8 +117,6 @@ body{
     position: relative;
     font-size: .813rem;
     <?=$CMSNT->site('font_family');?>
- 
-
 }
 .menu-icon {
     font-size: 16px;

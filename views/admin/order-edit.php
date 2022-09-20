@@ -54,6 +54,7 @@ if(isset($_POST['SaveOrder'])){
         'status'        => check_string($_POST['status']),
         'seller_note'   => check_string($_POST['seller_note']),
         'task_note'     => check_string($_POST['task_note']),
+        'success'       => check_string($_POST['success']),
         'update_gettime'    => gettime(),
         'update_time'       => time()
     ], " `id` = '".$row['id']."' ");
@@ -73,6 +74,14 @@ if(isset($_POST['SaveOrder'])){
     }
 }
 ?>
+<style>
+.reaction:checked+img {
+    border: 3px solid rgba(0, 35, 71, 0.8);
+    position: relative;
+    top: -10px;
+    transform: scale(1.2);
+}
+</style>
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
@@ -164,7 +173,7 @@ if(isset($_POST['SaveOrder'])){
                                             class="form-check-label" for="servicePack<?=$pack['id'];?>">
                                             <?=__($pack['name']);?>
                                             <span class="badge badge-label bg-primary"><?=__('Giá');?>
-                                                <?=format_currency($pack['price']);?></span>
+                                                <?=format_cash($pack['price']);?>đ</span>
                                         </label>
                                     </div>
                                     <?php endforeach?>
@@ -173,14 +182,14 @@ if(isset($_POST['SaveOrder'])){
                             <?php if($row['comment'] != ''):?>
                             <div class="row mb-3" id="show_comment">
                                 <div class="col-lg-3">
-                                    <label for="nameInput" class="form-label"><?=__('Nội dung bình luận:');?></label>
+                                    <label for="nameInput" class="form-label"><?=__('Nội dung comment/review/checkin:');?></label>
                                 </div>
                                 <div class="col-lg-9">
                                 <textarea class="form-control" rows="4" id="comment" readonly
                                         placeholder="<?=__('Nhập nội dung bình luận, mỗi dòng tương đương với 1 bình luận');?>"><?=$row['comment'];?></textarea>
                                 </div>
                             </div>
-                            <?php else:?>
+                            <?php else:?>  
                             <div class="row mb-3">
                                 <div class="col-lg-3">
                                     <label for="nameInput" class="form-label"><?=__('Số lượng cần mua');?></label>
@@ -188,6 +197,49 @@ if(isset($_POST['SaveOrder'])){
                                 <div class="col-lg-9">
                                     <input type="number" class="form-control" value="<?=format_cash($row['amount']);?>"
                                         readonly placeholder="<?=__('Nhập số lượng cần mua');?>" />
+                                </div>
+                            </div>
+                            <?php endif?>
+                            <div class="row mb-3">
+                                <div class="col-lg-3">
+                                    <label for="nameInput" class="form-label"><?=__('Đã chạy');?></label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <input type="number" class="form-control" value="<?=format_cash($row['success']);?>"
+                                        name="success" />
+                                </div>
+                            </div>
+                            <?php if($row['review'] != ''):?>
+                            <div class="row mb-3" id="show_comment">
+                                <div class="col-lg-3">
+                                    <label for="nameInput" class="form-label"><?=__('Nội dung comment/review/checkin:');?></label>
+                                </div>
+                                <div class="col-lg-9">
+                                <textarea class="form-control" rows="4" id="review" readonly ><?=$row['review'];?></textarea>
+                                </div>
+                            </div>
+                            <?php endif?> 
+
+                            <?php if($row['days'] > 0):?>
+                            <div class="row mb-3">
+                                <div class="col-lg-3">
+                                    <label for="nameInput" class="form-label"><?=__('Số ngày cần mua');?></label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <select class="form-select mb-3" disabled aria-label=".form-select-lg example">
+                                        <option value="<?=$row['days'];?>"><?=$row['days'];?> Ngày</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php endif?>
+                            <?php if($row['num_minutes'] != ''):?>
+                            <div class="row mb-3" id="show_eye">
+                                <div class="col-lg-3">
+                                    <label for="nameInput" class="form-label"><?=__('Số phút duy trì:');?></label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="number" id="num_minutes" readonly
+                                        value="<?=$row['num_minutes'];?>" />
                                 </div>
                             </div>
                             <?php endif?>

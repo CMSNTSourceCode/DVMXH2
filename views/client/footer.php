@@ -8,11 +8,11 @@
             <div class="col-sm-6">
                 <script>
                 document.write(new Date().getFullYear())
-                </script> © <?=$CMSNT->site('title');?>.
+                </script> © <?=$CMSNT->site('title');?> | <?=$CMSNT->site('copyright');?>
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    Version <b style="color: red;"><?=$config['version'];?></b>
+                    Version <b style="color: red;"><?=$config['version'];?></b> | Powered By <a target="_blank" href="https://www.cmsnt.co/?ref=<?=base_url();?>">CMSNT.CO</a>
                 </div>
             </div>
         </div>
@@ -32,13 +32,14 @@
 </button>
 <!--end back-to-top-->
 
+
+<?php if($CMSNT->site('display_customizer_theme') == 1):?>
 <div class="customizer-setting d-none d-md-block">
     <div class="btn-info btn-rounded shadow-lg btn btn-icon btn-lg p-2" data-bs-toggle="offcanvas"
         data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
         <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
     </div>
 </div>
-
 <!-- Theme Settings -->
 <div class="offcanvas offcanvas-end border-0" tabindex="-1" id="theme-settings-offcanvas">
     <div class="d-flex align-items-center bg-primary bg-gradient p-3 offcanvas-header">
@@ -559,6 +560,8 @@
         </div>
     </div> -->
 </div>
+<?php endif?>
+
 
 <!-- JAVASCRIPT -->
 <script src="<?=base_url('public/themesbrand/');?>libs/bootstrap/js/bootstrap.bundle.min.js"></script>

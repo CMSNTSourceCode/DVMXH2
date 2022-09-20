@@ -62,7 +62,6 @@ class users extends DB
         ));
         $isUpdate = parent::cong("users", "money", $amount, " `id` = '$user_id' ");
         if ($isUpdate) {
-            parent::cong("users", "total_money", $amount, " `id` = '$user_id' ");
             return true;
         }
         return false;

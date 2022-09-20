@@ -80,7 +80,7 @@ require_once(__DIR__.'/nav.php');
                                             <th><?=__('THAO TÁC');?></th>
                                             <th><?=__('USER');?></th>
                                             <th><?=__('DỊCH VỤ');?></th>
-                                            <th><?=__('SỐ LƯỢNG');?></th>
+                                            <th><?=__('SỐ LƯỢNG/ĐÃ TĂNG');?></th>
                                             <th><?=__('THANH TOÁN');?></th>
                                             <th><?=__('URL/ID');?></th>
                                             <th><?=__('THỜI GIAN');?></th>
@@ -101,7 +101,7 @@ require_once(__DIR__.'/nav.php');
                                             <td><?=getRowRealtime('services', $row['service_id'], 'name');?> -
                                                 <?=getRowRealtime('service_packs', $row['service_pack_id'], 'name');?>
                                             </td>
-                                            <td><b style="color: red;"><?=format_cash($row['amount']);?></b></td>
+                                            <td><b style="color: red;"><?=format_cash($row['amount']);?></b>/<b style="color: green;"><?=format_cash($row['success']);?></b></td>
                                             <td><b style="color: blue;"><?=format_currency($row['price']);?></b></td>
                                             <td><textarea class="form-control" rows="1"
                                                     readonly><?=$row['url'];?></textarea></td>

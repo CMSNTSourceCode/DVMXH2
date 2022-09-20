@@ -9,12 +9,12 @@
     $user = new users();
 
     /* START CHỐNG SPAM */
-    if (time() > $CMSNT->site('check_time_cron_bank')) {
-        if (time() - $CMSNT->site('check_time_cron_bank') < 5) {
-            die('[ÉT O ÉT ]Thao tác quá nhanh, vui lòng đợi');
+    if (time() > getRowRealtime('cronjobs', 2, 'update_time')) {
+        if (time() - getRowRealtime('cronjobs', 2, 'update_time') < 4) {
+            die(json_encode(['status' => 'error', 'msg' => __('Thao tác quá nhanh, vui lòng đợi')]));
         }
     }
-    $CMSNT->update("settings", ['value' => time()], " `name` = 'check_time_cron_bank' ");
+    $CMSNT->update("cronjobs", ['update_time' => time()], " `id` = 2 ");
     if ($CMSNT->site('status_bank') != 1) {
         die('Chức năng đang tắt.');
     }
@@ -36,7 +36,7 @@
             $user_id        = parse_order_id($description, $CMSNT->site('prefix_autobank'));         // TÁCH NỘI DUNG CHUYỂN TIỀN
             if($CMSNT->site('status_bank') == 1){
                 if($getUser = $CMSNT->get_row(" SELECT * FROM `users` WHERE `id` = '$user_id' ")){
-                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' ") == 0){
+                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' AND `description` = '$description'  ") == 0){
                         $insertSv2 = $CMSNT->insert("bank_auto", array(
                             'tid'               => $tid,
                             'user_id'           => $getUser['id'],
@@ -50,6 +50,7 @@
                             $received = checkPromotion($amount);
                             $isCong = $user->AddCredits($getUser['id'], $received, "Nạp tiền tự động qua Techcombank (#$tid - $description - $amount)");
                             if($isCong){
+                                $CMSNT->cong("users", "total_money", $amount, " `id` = '".$getUser['id']."' ");
                                 echo '[<b style="color:green">-</b>] Xử lý thành công 1 hoá đơn.'.PHP_EOL;
                             }
                         }
@@ -83,6 +84,7 @@
                             $received = checkPromotion($amount);
                             $isCong = $user->AddCredits($getUser['id'], $received, "Nạp tiền tự động qua Vietcombank (#$tid - $description - $amount)");
                             if($isCong){
+                                $CMSNT->cong("users", "total_money", $amount, " `id` = '".$getUser['id']."' ");
                                 echo '[<b style="color:green">-</b>] Xử lý thành công 1 hoá đơn.'.PHP_EOL;
                             }
                         }
@@ -102,7 +104,7 @@
             $user_id        = parse_order_id($description, $CMSNT->site('prefix_autobank'));         // TÁCH NỘI DUNG CHUYỂN TIỀN
             if($CMSNT->site('status_bank') == 1){
                 if($getUser = $CMSNT->get_row(" SELECT * FROM `users` WHERE `id` = '$user_id' ")){
-                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' ") == 0){
+                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' AND `description` = '$description'  ") == 0){
                         $insertSv2 = $CMSNT->insert("bank_auto", array(
                             'tid'               => $tid,
                             'user_id'           => $getUser['id'],
@@ -116,6 +118,7 @@
                             $received = checkPromotion($amount);
                             $isCong = $user->AddCredits($getUser['id'], $received, "Nạp tiền tự động qua VPBank (#$tid - $description - $amount)");
                             if($isCong){
+                                $CMSNT->cong("users", "total_money", $amount, " `id` = '".$getUser['id']."' ");
                                 echo '[<b style="color:green">-</b>] Xử lý thành công 1 hoá đơn.'.PHP_EOL;
                             }
                         }
@@ -135,7 +138,7 @@
             $user_id        = parse_order_id($description, $CMSNT->site('prefix_autobank'));         // TÁCH NỘI DUNG CHUYỂN TIỀN
             if($CMSNT->site('status_bank') == 1){
                 if($getUser = $CMSNT->get_row(" SELECT * FROM `users` WHERE `id` = '$user_id' ")){
-                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' ") == 0){
+                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' AND `description` = '$description'  ") == 0){
                         $insertSv2 = $CMSNT->insert("bank_auto", array(
                             'tid'               => $tid,
                             'user_id'           => $getUser['id'],
@@ -149,6 +152,7 @@
                             $received = checkPromotion($amount);
                             $isCong = $user->AddCredits($getUser['id'], $received, "Nạp tiền tự động qua ACB (#$tid - $description - $amount)");
                             if($isCong){
+                                $CMSNT->cong("users", "total_money", $amount, " `id` = '".$getUser['id']."' ");
                                 echo '[<b style="color:green">-</b>] Xử lý thành công 1 hoá đơn.'.PHP_EOL;
                             }
                         }
@@ -168,7 +172,7 @@
             $user_id        = parse_order_id($description, $CMSNT->site('prefix_autobank'));         // TÁCH NỘI DUNG CHUYỂN TIỀN
             if($CMSNT->site('status_bank') == 1){
                 if($getUser = $CMSNT->get_row(" SELECT * FROM `users` WHERE `id` = '$user_id' ")){
-                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' ") == 0){
+                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' AND `description` = '$description'  ") == 0){
                         $insertSv2 = $CMSNT->insert("bank_auto", array(
                             'tid'               => $tid,
                             'user_id'           => $getUser['id'],
@@ -182,6 +186,7 @@
                             $received = checkPromotion($amount);
                             $isCong = $user->AddCredits($getUser['id'], $received, "Nạp tiền tự động qua MBBank (#$tid - $description - $amount)");
                             if($isCong){
+                                $CMSNT->cong("users", "total_money", $amount, " `id` = '".$getUser['id']."' ");
                                 echo '[<b style="color:green">-</b>] Xử lý thành công 1 hoá đơn.'.PHP_EOL;
                             }
                         }
@@ -195,13 +200,13 @@
         $result = curl_get("https://api.web2m.com/historyapitpb/$token");
         $result = json_decode($result, true);
         foreach ($result['transactionInfos'] as $data) {
-            $tid            = check_string($data['arrangementId']);
+            $tid            = check_string($data['reference']);
             $description    = check_string($data['description']);
             $amount         = check_string($data['amount']);
             $user_id        = parse_order_id($description, $CMSNT->site('prefix_autobank'));         // TÁCH NỘI DUNG CHUYỂN TIỀN
             if($CMSNT->site('status_bank') == 1){
                 if($getUser = $CMSNT->get_row(" SELECT * FROM `users` WHERE `id` = '$user_id' ")){
-                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' ") == 0){
+                    if($CMSNT->num_rows(" SELECT * FROM `bank_auto` WHERE `tid` = '$tid' AND `description` = '$description'  ") == 0){
                         $insertSv2 = $CMSNT->insert("bank_auto", array(
                             'tid'               => $tid,
                             'user_id'           => $getUser['id'],
@@ -215,6 +220,7 @@
                             $received = checkPromotion($amount);
                             $isCong = $user->AddCredits($getUser['id'], $received, "Nạp tiền tự động qua TPBank (#$tid - $description - $amount)");
                             if($isCong){
+                                $CMSNT->cong("users", "total_money", $amount, " `id` = '".$getUser['id']."' ");
                                 echo '[<b style="color:green">-</b>] Xử lý thành công 1 hoá đơn.'.PHP_EOL;
                             }
                         }

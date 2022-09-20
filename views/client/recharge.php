@@ -48,12 +48,12 @@ require_once(__DIR__.'/sidebar.php');
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0"><?=__('Ngân hàng & ví điện tử');?></h4>
+                        <h4 class="mb-sm-0"><?=__('Ngân hàng, ví điện tử');?></h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="<?=base_url();?>"><?=__('Trang chủ');?></a></li>
                                 <li class="breadcrumb-item"><?=__('Nạp tiền');?></li>
-                                <li class="breadcrumb-item active"><?=__('Ngân hàng & ví điện tử');?></li>
+                                <li class="breadcrumb-item active"><?=__('Ngân hàng, ví điện tử');?></li>
                             </ol>
                         </div>
                     </div>
@@ -76,15 +76,15 @@ require_once(__DIR__.'/sidebar.php');
                                 <img class="mb-3" src="<?=base_url($bank['image']);?>" width="200px" height="100px">
                             </center>
                             <ul class="list-group mb-2">
-                                <li class="list-group-item">Số tài khoản: <b id="copySTK<?=$bank['id'];?>"
+                                <li class="list-group-item"><?=__('Số tài khoản:');?> <b id="copySTK<?=$bank['id'];?>"
                                         style="color: green;"><?=$bank['accountNumber'];?></b> <button onclick="copy()"
                                         data-clipboard-target="#copySTK<?=$bank['id'];?>"
                                         class="copy btn btn-primary btn-sm"><i class="fas fa-copy"></i></button>
                                 </li>
-                                <li class="list-group-item">Chủ tài khoản: <b><?=$bank['accountName'];?></b>
+                                <li class="list-group-item"><?=__('Chủ tài khoản:');?> <b><?=$bank['accountName'];?></b>
                                 </li>
-                                <li class="list-group-item">Ngân hàng: <b><?=$bank['short_name'];?></b></li>
-                                <li class="list-group-item">Nội dung nạp: <b id="copyNoiDung<?=$bank['id'];?>"
+                                <li class="list-group-item"><?=__('Ngân hàng:');?> <b><?=$bank['short_name'];?></b></li>
+                                <li class="list-group-item"><?=__('Nội dung nạp:');?> <b id="copyNoiDung<?=$bank['id'];?>"
                                         style="color: red;"><?=$CMSNT->site('prefix_autobank').$getUser['id'];?></b>
                                     <button onclick="copy()" data-clipboard-target="#copyNoiDung<?=$bank['id'];?>"
                                         class="copy btn btn-primary btn-sm"><i class="fas fa-copy"></i></button>
@@ -168,8 +168,7 @@ require_once(__DIR__.'/sidebar.php');
         </div>
     </div>
     <!-- container-fluid -->
-</div>
-<!-- End Page-content -->
+ 
 
 
 <?php require_once(__DIR__.'/footer.php');?>

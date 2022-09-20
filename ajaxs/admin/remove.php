@@ -218,7 +218,125 @@ if($_POST['action'] == 'removeBank'){
     }
 }
 
+//  XOÁ SERVICE PACK
+if($_POST['action'] == 'removeDomain'){
+    $id = check_string($_POST['id']);
+    if (!$row = $CMSNT->get_row("SELECT * FROM `domains` WHERE `id` = '$id' ")) {
+        die(json_encode([
+            'status'    => 'error',
+            'msg'       => 'ID tên miền không tồn tại trong hệ thống'
+        ]));
+    }
+    $isRemove = $CMSNT->remove("domains", " `id` = '$id' ");
+    if ($isRemove) {
+        $Mobile_Detect = new Mobile_Detect();
+        $CMSNT->insert("logs", [
+            'user_id'       => $getUser['id'],
+            'ip'            => myip(),
+            'device'        => $Mobile_Detect->getUserAgent(),
+            'createdate'    => gettime(),
+            'action'        => 'Xoá tên miền ('.$row['domain'].' ID '.$row['id'].')'
+        ]);
+        $data = json_encode([
+            'status'    => 'success',
+            'msg'       => 'Xóa tên miền thành công'
+        ]);
+        die($data);
+    }
+}
 
+//  XOÁ RANKS
+if($_POST['action'] == 'removeRank'){
+    $id = check_string($_POST['id']);
+    if (!$row = $CMSNT->get_row("SELECT * FROM `ranks` WHERE `id` = '$id' ")) {
+        die(json_encode([
+            'status'    => 'error',
+            'msg'       => 'ID item không tồn tại trong hệ thống'
+        ]));
+    }
+    $isRemove = $CMSNT->remove("ranks", " `id` = '$id' ");
+    if ($isRemove) {
+        $Mobile_Detect = new Mobile_Detect();
+        $CMSNT->insert("logs", [
+            'user_id'       => $getUser['id'],
+            'ip'            => myip(),
+            'device'        => $Mobile_Detect->getUserAgent(),
+            'createdate'    => gettime(),
+            'action'        => 'Xoá cấp bậc ('.$row['domain'].' ID '.$row['id'].')'
+        ]);
+        $data = json_encode([
+            'status'    => 'success',
+            'msg'       => 'Xóa item thành công'
+        ]);
+        die($data);
+    }
+}
+
+
+if($_POST['action'] == 'removeLanguage'){
+    $id = check_string($_POST['id']);
+    $row = $CMSNT->get_row("SELECT * FROM `languages` WHERE `id` = '$id' ");
+    if (!$row) {
+        $data = json_encode([
+            'status'    => 'error',
+            'msg'       => 'ID ngôn ngữ không tồn tại trong hệ thống'
+        ]);
+        die($data);
+    }
+    if ($row['lang_default'] == 1) {
+        $data = json_encode([
+            'status'    => 'error',
+            'msg'       => 'Bạn không thể xoá ngôn ngữ mặc định của hệ thống'
+        ]);
+        die($data);
+    }
+    $CMSNT->remove("translate", " `lang_id` = '".$row['id']."' ");
+    $isRemove = $CMSNT->remove("languages", " `id` = '$id' ");
+    if ($isRemove) {
+        $Mobile_Detect = new Mobile_Detect();
+        $CMSNT->insert("logs", [
+            'user_id'       => $getUser['id'],
+            'ip'            => myip(),
+            'device'        => $Mobile_Detect->getUserAgent(),
+            'createdate'    => gettime(),
+            'action'        => 'Xoá ngôn ngữ ('.$row['lang'].' ID '.$row['id'].')'
+        ]);
+        $data = json_encode([
+            'status'    => 'success',
+            'msg'       => 'Xóa ngôn ngữ thành công'
+        ]);
+        die($data);
+    }
+}
+
+if($_POST['action'] == 'removeTranslate'){
+    $id = check_string($_POST['id']);
+    $row = $CMSNT->get_row("SELECT * FROM `translate` WHERE `id` = '$id' ");
+    if (!$row) {
+        $data = json_encode([
+            'status'    => 'error',
+            'msg'       => 'ID ngôn ngữ không tồn tại trong hệ thống'
+        ]);
+        die($data);
+    }
+    //$isRemove = $CMSNT->remove("translate", " `value` = '".$row['value']."' ");
+    $isRemove = $CMSNT->remove("translate", " `id` = '$id' ");
+    if ($isRemove) {
+        $Mobile_Detect = new Mobile_Detect();
+        $CMSNT->insert("logs", [
+            'user_id'       => $getUser['id'],
+            'ip'            => myip(),
+            'device'        => $Mobile_Detect->getUserAgent(),
+            'createdate'    => gettime(),
+            'action'        => 'Xoá ngôn ngữ ('.$row['value'].')'
+        ]);
+        $data = json_encode([
+            'status'    => 'success',
+            'msg'       => 'Xóa ngôn ngữ thành công'
+        ]);
+        die($data);
+    }
+}
 die(json_encode([
     'status'    => 'error',
     'msg'       => 'Dữ liệu không hợp lệ'

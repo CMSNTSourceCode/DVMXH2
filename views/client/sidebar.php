@@ -42,21 +42,19 @@
                             </span>
                         </button>
 
-                        <!-- App Search-->
+                         
                         <form class="app-search d-none d-md-block">
                             <div class="position-relative">
-                                <input type="text" class="form-control" placeholder="Search..." autocomplete="off"
-                                    id="search-options" value="">
-                                <span class="mdi mdi-magnify search-widget-icon"></span>
+                                <!-- <input type="text" class="form-control" readonly   autocomplete="off"
+                                    id="search-options" value=""> -->
+                                <b id="search-options"></b>
                                 <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
                                     id="search-close-options"></span>
                             </div>
                         </form>
                     </div>
-
                     <div class="d-flex align-items-center">
-
-                        <div class="dropdown d-md-none topbar-head-dropdown header-item">
+                        <!-- <div class="dropdown d-md-none topbar-head-dropdown header-item">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
@@ -75,10 +73,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>
-
-
-
+                        </div> -->
 
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
@@ -86,7 +81,7 @@
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class='bx bx-shopping-bag fs-22'></i>
                                 <span
-                                    class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-info"><?=format_cash(isset($getUser) ? $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `status` = 0 OR `status` = 3 AND `buyer` = '".$getUser['id']."' ORDER BY ID DESC ")['COUNT(id)'] : 0);?></span>
+                                    class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-info"><?=format_cash(isset($getUser) ? $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `buyer` = '".$getUser['id']."' AND `status` = 0 OR `status` = 3  ORDER BY ID DESC ")['COUNT(id)'] : 0);?></span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 dropdown-menu-cart"
                                 aria-labelledby="page-header-cart-dropdown">
@@ -97,7 +92,7 @@
                                         </div>
                                         <div class="col-auto">
                                             <span
-                                                class="badge badge-soft-warning fs-13"><span><?=format_cash(isset($getUser) ? $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `status` = 0 OR `status` = 3 AND `buyer` = '".$getUser['id']."' ORDER BY ID DESC ")['COUNT(id)'] : 0);?></span>
+                                                class="badge badge-soft-warning fs-13"><span><?=format_cash(isset($getUser) ? $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `buyer` = '".$getUser['id']."' AND `status` = 0  ORDER BY ID DESC ")['COUNT(id)'] : 0);?></span>
                                                 <?=__('đơn');?></span>
                                         </div>
                                     </div>
@@ -115,7 +110,7 @@
                                         </div>
                                         <?php endif?>
 
-                                        <?php if(isset($getUser) && $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `status` = 0 OR `status` = 3 AND `buyer` = '".$getUser['id']."' ORDER BY ID DESC ")['COUNT(id)'] == 0):?>
+                                        <?php if(isset($getUser) && $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `buyer` = '".$getUser['id']."' AND `status` = 0 ORDER BY ID DESC ")['COUNT(id)'] == 0):?>
                                         <div class="text-center empty-cart">
                                             <div class="avatar-md mx-auto my-3">
                                                 <div class="avatar-title bg-soft-info text-info fs-36 rounded-circle">
@@ -125,8 +120,8 @@
                                             <h5 class="mb-3"><?=__('Bạn không có đơn hàng nào đang xử lý!');?></h5>
                                         </div>
                                         <?php endif?>
-                                        <?php if(isset($getUser) && $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `status` = 0 OR `status` = 3 AND `buyer` = '".$getUser['id']."' ORDER BY ID DESC ")['COUNT(id)'] != 0):?>
-                                        <?php foreach($CMSNT->get_list(" SELECT * FROM `orders` WHERE `status` = 0 OR `status` = 3 AND `buyer` = '".$getUser['id']."' ORDER BY ID DESC ") as $orderNav):?>
+                                        <?php if(isset($getUser) && $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `buyer` = '".$getUser['id']."' AND `status` = 0  ORDER BY ID DESC ")['COUNT(id)'] != 0):?>
+                                        <?php foreach($CMSNT->get_list(" SELECT * FROM `orders` WHERE `buyer` = '".$getUser['id']."' AND `status` = 0  ORDER BY ID DESC ") as $orderNav):?>
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="<?=base_url(getRowRealtime('services', $orderNav['service_id'], 'icon'));?>"
@@ -168,22 +163,18 @@
                                 <i class='bx bx-fullscreen fs-22'></i>
                             </button>
                         </div>
-
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
                                 <i class='bx bx-moon fs-22'></i>
                             </button>
                         </div>
-
-                         
-
                         <div class="dropdown ms-sm-3 header-item topbar-user">
                             <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <span class="d-flex align-items-center">
                                     <img class="rounded-circle header-profile-user"
-                                        src="<?=base_url('public/themesbrand/');?>images/users/avatar-1.jpg"
+                                        src="<?=base_url('assets/img/icon-avatar.png');?>"
                                         alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
                                         <span
@@ -259,7 +250,6 @@
                     <i class="ri-record-circle-line"></i>
                 </button>
             </div>
-
             <div id="scrollbar">
                 <div class="container-fluid">
 
@@ -276,7 +266,7 @@
                                 href="<?=base_url('client/home');?>">
                                 <i class="menu-icon">
                                     <img width="100%" src="<?=base_url('assets/img/icon-house.png');?>">
-                                </i> <span><?=__('Trang Chủ');?></span>
+                                </i> <span><?=__('Trang chủ');?></span>
                             </a>
                         </li>
 
@@ -286,19 +276,27 @@
                                 <i class="menu-icon">
                                     <img width="100%" src="<?=base_url('assets/img/icon-payment.png');?>">
                                 </i>
-                                <span><?=__('Nạp Tiền');?></span>
+                                <span><?=__('Nạp tiền');?></span>
                             </a>
-                            <div class="collapse menu-dropdown <?=show_sidebar(['recharge', 'nap-the']);?>"
+                            <div class="collapse menu-dropdown <?=show_sidebar(['recharge', 'nap-the', 'paypal']);?>"
                                 id="sidebarNapTien">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                         <a href="<?=base_url('client/recharge');?>"
-                                            class="nav-link <?=active_sidebar(['recharge']);?>"><?=__('Ngân Hàng & Ví Điện Tử');?></a>
+                                            class="nav-link <?=active_sidebar(['recharge']);?>"><?=__('Ngân hàng, ví điện tử');?></a>
                                     </li>
+                                    <?php if($CMSNT->site('status_napthe') == 1):?>
                                     <li class="nav-item">
                                         <a href="<?=base_url('client/nap-the');?>"
-                                            class="nav-link <?=active_sidebar(['nap-the']);?>"><?=__('Nạp Thẻ Cào');?></a>
+                                            class="nav-link <?=active_sidebar(['nap-the']);?>"><?=__('Nạp thẻ cào');?></a>
                                     </li>
+                                    <?php endif?>
+                                    <?php if ($CMSNT->site('status_paypal') == 1) {?>
+                                    <li class="nav-item">
+                                        <a href="<?=base_url('client/paypal');?>"
+                                            class="nav-link <?=active_sidebar(['paypal']);?>"><?=__('PayPal');?></a>
+                                    </li>
+                                    <?php }?>
                                 </ul>
                             </div>
                         </li>
@@ -309,20 +307,40 @@
                                 <i class="menu-icon">
                                     <img width="100%" src="<?=base_url('assets/img/icon-orders.png');?>">
                                 </i>
-                                <span><?=__('Lịch Sử Đơn Hàng');?></span>
+                                <span><?=__('Lịch sử đơn hàng');?></span>
                                 <span
-                                    class="badge badge-pill bg-danger"><?=format_cash(isset($getUser) ? $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `status` = 0 OR `status` = 3 AND `buyer` = '".$getUser['id']."' ORDER BY ID DESC ")['COUNT(id)'] : 0);?></span>
+                                    class="badge badge-pill bg-danger"><?=format_cash(isset($getUser) ? $CMSNT->get_row("SELECT COUNT(id) FROM `orders` WHERE `buyer` = '".$getUser['id']."' AND `status` = 0 OR `status` = 3 ORDER BY ID DESC ")['COUNT(id)'] : 0);?></span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link menu-link <?=active_sidebar(['upgrade']);?>"
+                                href="<?=base_url('client/upgrade');?>">
+                                <i class="menu-icon">
+                                    <img width="100%" src="<?=base_url('assets/img/icon-rank.png');?>">
+                                </i>
+                                <span><?=__('Cấp bậc tài khoản');?></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link menu-link <?=active_sidebar(['api']);?>"
                                 href="<?=base_url('client/api');?>">
                                 <i class="menu-icon">
                                     <img width="100%" src="<?=base_url('assets/img/icon-api.png');?>">
                                 </i>
-                                <span><?=__('Tich Hợp API');?></span>
+                                <span><?=__('Tich hợp API');?></span>
                             </a>
-                        </li> -->
+                        </li>
+                        <?php if($CMSNT->site('status_create_website') == 1):?>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link <?=active_sidebar(['create-website']);?>"
+                                href="<?=base_url('client/create-website');?>">
+                                <i class="menu-icon">
+                                    <img width="100%" src="<?=base_url('assets/img/icon-tao-website-rieng.png');?>">
+                                </i>
+                                <span><?=__('Tạo website riêng');?></span>
+                            </a>
+                        </li>
+                        <?php endif?>
                         <li class="menu-title"><i class="ri-more-fill"></i> <span><?=__('DỊCH VỤ');?></span></li>
                         <?php foreach($CMSNT->get_list("SELECT * FROM `categories` WHERE `display` = 1 ORDER BY stt ASC ") as $category):?>
                         <li class="nav-item">

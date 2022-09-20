@@ -66,6 +66,7 @@ if (isset($_POST['AddService'])) {
         'category_id'   => check_string($_POST['category_id']),
         'slug'          => create_slug(check_string($_POST['name'])),
         'content'       => base64_encode($_POST['content']),
+        'notification'   => check_string($_POST['notification']),
         'text_input'            => check_string($_POST['text_input']),
         'text_placeholder'      => check_string($_POST['text_placeholder']),
         'display'       => check_string($_POST['display']),
@@ -187,7 +188,10 @@ require_once(__DIR__.'/footer.php');
 ?>
 <script>
 $(function() {
-    $('#listService').DataTable({order:[[4,"desc"]]});
+    $('#listService').DataTable({
+        order:[[4,"desc"]],
+        pageLength: 10000
+    });
 });
 </script>
 <script type="text/javascript">
@@ -288,7 +292,7 @@ function RemoveRow(id) {
                         <label for="exampleInputFile">Icon</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="icon" required>
+                                <input type="file" class="custom-file-input" name="icon">
                                 <label class="custom-file-label" for="exampleInputFile">Choose
                                     file</label>
                             </div>
@@ -307,8 +311,12 @@ function RemoveRow(id) {
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Mô tả dịch vụ</label>
+                        <label for="exampleInputEmail1">Lưu ý</label>
                         <textarea id="content" name="content" placeholder="Nhập ghi chú cho dịch vụ nếu có"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Thông báo</label>
+                        <input class="form-control" type="text" placeholder="Nhập thông báo nổi nếu có" name="notification">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Text Input</label>

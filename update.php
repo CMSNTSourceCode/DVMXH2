@@ -8,6 +8,10 @@ require_once(__DIR__.'/libs/helper.php');
 $CMSNT = new DB();
 
 
+ 
+
+
+
 $whitelist = array(
     '127.0.0.1',
     '::1'
@@ -19,7 +23,7 @@ if ($CMSNT->site('status_update') == 1) {
     if ($config['version'] != file_get_contents('http://api.cmsnt.co/version.php?version=DVMXH2')) {
         //CONFIG THÔNG SỐ
         define('filename', 'update_'.random('ABC123456789', 6).'.zip');
-        define('serverfile', 'http://api.cmsnt.co/dvmxh298F2fVHoiFnoiF.zip');
+        define('serverfile', 'http://api.cmsnt.co/DVMXH2xz35f71fgb6x8g9s.zip');
         // TIẾN HÀNH TẢI BẢN CẬP NHẬT TỪ SERVER VỀ
         file_put_contents(filename, file_get_contents(serverfile));
         // TIẾN HÀNH GIẢI NÉN BẢN CẬP NHẬT VÀ GHI ĐÈ VÀO HỆ THỐNG

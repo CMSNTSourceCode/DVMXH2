@@ -4,6 +4,7 @@ define("IN_SITE", true);
 require_once(__DIR__."/../../config.php");
 require_once(__DIR__."/../../libs/db.php");
 require_once(__DIR__."/../../libs/helper.php");
+ 
 
 $CMSNT = new DB();
 $Mobile_Detect = new Mobile_Detect();
@@ -71,18 +72,7 @@ if (isset($_POST['action'])) {
                 ]));
             }
         }
-    //     $chu_de = 'Cảnh báo phát hiện đăng nhập tài khoản quản trị '.$CMSNT->site('title');
-    //     $noi_dung = '
-    // Hệ thống phát hiện người dùng IP <b style="color:red;">'.myip().'</b> đang thực hiện đăng nhập tài khoản quản trị (<b>'.$getUser['username'].'</b>).<br>
-    // Nếu không phải bạn vui lòng thay đổi thông tin tài khoản ngay hoặc liên hệ <a target="_blank" href="https://www.cmsnt.co/">CMSNT.CO</a> để hỗ trợ kiểm tra an toàn cho quý khách.<br>
-    // <br>
-    // <ul>
-    //     <li>Thời gian: '.gettime().'</li>
-    //     <li>IP: '.myip().'</li>
-    //     <li>Thiết bị: '.$Mobile_Detect->getUserAgent().'</li>
-    // </ul>';
-    //     $bcc = $CMSNT->site('title');
-    //     sendCSM($CMSNT->site('email'), $getUser['username'], $chu_de, $noi_dung, $bcc);
+
         if ($getUser['status_2fa'] == 1) {
             die(json_encode([
                 'status'    => 'verify',
@@ -97,13 +87,12 @@ if (isset($_POST['action'])) {
             'createdate'    => gettime(),
             'action'        => '[Warning] '.__('Đăng nhập thành công vào hệ thống Admin')
         ]);
-        $new_token = md5(random('QWERTYUIOPASDGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789', 6).time());
+        $new_token = $getUser['token'];
         $CMSNT->update("users", [
             'ip'        => myip(),
             'time_request' => time(),
             'time_session' => time(),
-            'device'    => $Mobile_Detect->getUserAgent(),
-            'token'     => $new_token
+            'device'    => $Mobile_Detect->getUserAgent()
         ], " `id` = '".$getUser['id']."' ");
         setcookie("token", $new_token, time() + $CMSNT->site('session_login'), "/");
         $_SESSION['admin_login'] = $new_token;

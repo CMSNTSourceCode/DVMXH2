@@ -53,6 +53,13 @@ require_once(__DIR__.'/nav.php');
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <b>Phiên bản hiện tại: <span style="color: yellow;"><?=$config['version'];?></span></b>
                 <ul>
+                    <li>03/09/2022: Lại fix API Baostar :)</li>
+                    <li>02/09/2022: Fix TPBank</li>
+                    <li>31/08/2022: Fix mua comment/review Baostar.</li>
+                    <li>30/08/2022: Fix API Baostar.</li>
+                    <li>25/08/2022: Thêm nạp tiền tự động qua PayPal - (shop nào đấu API Baostar vui lòng cấu hình thêm API hacklike17 để hệ thống tự động convert URL sang UID khi order).</li>
+                    <li>16/08/2022; Fix lỗi không hiện ô comment tính giá theo số lượng, tự convert URL sang ID khi order dịch vụ Facebook API BAOSTAR.</li>
+                    <li>10/07/2022: Fix tổng nạp khi hoàn lại tiền đơn hàng.</li>
                     <li>05/06/2022: Tuỳ chỉnh ô nhập comment và chọn cảm xúc.</li>
                     <li>28/05/2022: Thêm trạng thái đang chạy cho đơn hàng, fix lỗi auto TPBank.</li>
                     <li>12/05/2022: Cập nhật hệ thống...</li>

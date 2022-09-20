@@ -9,9 +9,6 @@ $body = [
 $body['header'] = '
 <!-- Bootstrap Color Picker -->
 <link rel="stylesheet" href="'.BASE_URL('public/AdminLTE3/').'plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
-<!-- CodeMirror -->
-<link rel="stylesheet" href="'.BASE_URL('public/AdminLTE3/').'plugins/codemirror/codemirror.css">
-<link rel="stylesheet" href="'.BASE_URL('public/AdminLTE3/').'plugins/codemirror/theme/monokai.css">
 <!-- ckeditor -->
 <script src="'.BASE_URL('public/ckeditor/ckeditor.js').'"></script>
 <!-- Select2 -->
@@ -21,11 +18,6 @@ $body['header'] = '
 $body['footer'] = '
 <!-- bootstrap color picker -->
 <script src="'.BASE_URL('public/AdminLTE3/').'plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
-<!-- CodeMirror -->
-<script src="'.BASE_URL('public/AdminLTE3/').'plugins/codemirror/codemirror.js"></script>
-<script src="'.BASE_URL('public/AdminLTE3/').'plugins/codemirror/mode/css/css.js"></script>
-<script src="'.BASE_URL('public/AdminLTE3/').'plugins/codemirror/mode/xml/xml.js"></script>
-<script src="'.BASE_URL('public/AdminLTE3/').'plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
 <!-- Select2 -->
 <script src="'.BASE_URL('public/AdminLTE3/').'plugins/select2/js/select2.full.min.js"></script>
 <script>
@@ -41,6 +33,7 @@ require_once(__DIR__.'/../../models/is_admin.php');
 require_once(__DIR__.'/header.php');
 require_once(__DIR__.'/sidebar.php');
 require_once(__DIR__.'/nav.php');
+require_once(__DIR__.'/../../models/is_license.php');
 ?>
 
 
@@ -109,6 +102,11 @@ require_once(__DIR__.'/nav.php');
                                         href="#tab-nap-the" role="tab" aria-controls="tab-nap-the"
                                         aria-selected="false">NẠP THẺ AUTO</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill"
+                                        href="#tab-paypal" role="tab" aria-controls="tab-paypal"
+                                        aria-selected="false">PAYPAL AUTO</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -145,6 +143,12 @@ require_once(__DIR__.'/nav.php');
                                                     <label for="exampleInputEmail1">Author</label>
                                                     <input type="text" class="form-control" name="author"
                                                         value="<?=$CMSNT->site('author');?>" placeholder="VD: CMSNT">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Copyright</label>
+                                                    <textarea class="form-control" name="copyright"><?=$CMSNT->site('copyright');?></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
@@ -261,6 +265,19 @@ require_once(__DIR__.'/nav.php');
                                                         thay font website</i>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label>ON/OFF Theme Customizer</label>
+                                                    <select class="form-control select2bs4" name="display_customizer_theme">
+                                                        <option
+                                                            <?=$CMSNT->site('display_customizer_theme') == 1 ? 'selected' : '';?>
+                                                            value="1">ON</option>
+                                                        <option
+                                                            <?=$CMSNT->site('display_customizer_theme') == 0 ? 'selected' : '';?>
+                                                            value="0">OFF</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-12">
                                             </div> 
                                             <div class="col-lg-6">
@@ -283,6 +300,12 @@ require_once(__DIR__.'/nav.php');
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Thông báo ngoài trang chủ</label>
                                                     <textarea id="notice_home" name="notice_home"><?=$CMSNT->site('notice_home');?></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Thông báo nổi ngoài trang chủ</label>
+                                                    <textarea class="form-control" rows="6" name="popup_noti"><?=$CMSNT->site('popup_noti');?></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -324,6 +347,7 @@ require_once(__DIR__.'/nav.php');
                                             <textarea name="text_notification" class="form-control"><?=$CMSNT->site('text_notification');?></textarea>
                                             <ul>
                                                 <li><b>{domain}</b> => Tên website của quý khách.</li>
+                                                <li><b>{username}</b> => Tên đăng nhập của khách.</li>
                                                 <li><b>{service_name}</b> => Tên dịch vụ khách hàng mua.</li>
                                                 <li><b>{service_pack_name}</b> => Tên gói dịch vụ khách hàng mua.</li>
                                                 <li><b>{amount}</b> => Số lượng khách hàng mua.</li>
@@ -467,6 +491,52 @@ require_once(__DIR__.'/nav.php');
                                             <label for="exampleInputEmail1">Ghi chú nạp thẻ</label>
                                             <textarea id="notice_napthe"
                                                 name="notice_napthe"><?=$CMSNT->site('notice_napthe');?></textarea>
+                                        </div>
+                                        <button name="SaveSettings" class="btn btn-info btn-icon-left m-b-10"
+                                            type="submit"><i class="fas fa-save mr-1"></i>Lưu Ngay</button>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="tab-paypal" role="tabpanel" aria-labelledby="tab-paypal">
+                                    <form action="" method="POST">
+                                    <div class="form-group">
+                                            <label>Status</label>
+                                            <select class="form-control select2bs4" name="status_paypal">
+                                                <option <?=$CMSNT->site('status_paypal') == 0 ? 'selected' : '';?>
+                                                    value="0">OFF
+                                                </option>
+                                                <option <?=$CMSNT->site('status_paypal') == 1 ? 'selected' : '';?>
+                                                    value="1">ON
+                                                </option>
+                                            </select>
+                                            <i>Chọn OFF hệ thống sẽ tạm dừng nạp paypal.</i>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Client ID</label>
+                                            <input type="text" class="form-control" name="clientId_paypal"
+                                                value="<?=$CMSNT->site('clientId_paypal');?>"
+                                                placeholder="Nhập Client ID Paypal">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Client Secret</label>
+                                            <input type="text" class="form-control" name="clientSecret_paypal"
+                                                value="<?=$CMSNT->site('clientSecret_paypal');?>"
+                                                placeholder="Nhập Client Secret Paypal">
+                                            <i>Cách lấy Secret và ID Paypal tại đây: <a
+                                                    href="https://youtu.be/6r17Wj3UlNE?t=13" target="_blank">Xem
+                                                    Ngay</a></i>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Rate Paypal</label>
+                                            <input type="number" class="form-control" name="rate_paypal"
+                                                value="<?=$CMSNT->site('rate_paypal');?>"
+                                                placeholder="Nhập Rate quy đổi sang VND">
+                                            <i>Để <?=$CMSNT->site('rate_paypal');?> tức khách nạp 1 USD sẽ được
+                                                <?=format_currency($CMSNT->site('rate_paypal'));?></i>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Ghi chú nạp paypal</label>
+                                            <textarea id="paypal_notice"
+                                                name="paypal_notice"><?=$CMSNT->site('paypal_notice');?></textarea>
                                         </div>
                                         <button name="SaveSettings" class="btn btn-info btn-icon-left m-b-10"
                                             type="submit"><i class="fas fa-save mr-1"></i>Lưu Ngay</button>
@@ -639,6 +709,7 @@ require_once(__DIR__.'/nav.php');
     <!-- /.modal-dialog -->
 </div>
 <script>
+CKEDITOR.replace('paypal_notice');
 CKEDITOR.replace('notice_home');
 CKEDITOR.replace("notice_napthe");
 CKEDITOR.replace("recharge_notice");

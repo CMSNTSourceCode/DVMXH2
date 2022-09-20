@@ -7,6 +7,8 @@ RewriteEngine On
 
 
 #Xử lý Route ADMIN
+RewriteRule ^admin/translate-list/([A-Za-z0-9-]+) index.php?module=admin&action=translate-list&id=$1 [L]
+RewriteRule ^admin/language-edit/([A-Za-z0-9-]+) index.php?module=admin&action=language-edit&id=$1 [L]
 RewriteRule ^admin/order-edit/([A-Za-z0-9-]+) index.php?module=admin&action=order-edit&trans_id=$1 [L]
 RewriteRule ^admin/bank-edit/([A-Za-z0-9-]+) index.php?module=admin&action=bank-edit&id=$1 [L]
 RewriteRule ^admin/service-edit/([A-Za-z0-9-]+) index.php?module=admin&action=service-edit&id=$1 [L]

@@ -96,7 +96,7 @@ require_once(__DIR__.'/nav.php');
                                         <td><?=$row['amount'];?></td>
                                         <td><?=$row['received'];?></td>
                                         <td><?=$row['description'];?></td>
-                                        <td><?=$row['time'];?></td>
+                                        <td><?=$row['create_gettime'];?></td>
                                     </tr>
                                     <?php }?>
                                 </tbody>

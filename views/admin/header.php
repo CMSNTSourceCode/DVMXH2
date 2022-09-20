@@ -17,16 +17,27 @@
     <link rel="stylesheet" href="<?=BASE_URL('public/AdminLTE3/');?>plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?=BASE_URL('public/AdminLTE3/');?>dist/css/adminlte.min.css">
+
+    
     <!-- Cute Alert -->
     <link class="main-stylesheet" href="<?=BASE_URL('public/');?>cute-alert/style.css" rel="stylesheet"
         type="text/css">
     <script src="<?=BASE_URL('public/');?>cute-alert/cute-alert.js"></script>
+    <!-- Sweet Alert css-->
+    <link href="<?=base_url('public/sweetalert2/');?>default.css" rel="stylesheet" type="text/css" />
+    <!-- Sweet Alerts js -->
+    <script src="<?=base_url('public/sweetalert2/');?>sweetalert2.js"></script>
+
     <!-- JQVMap -->
     <link rel="stylesheet" href="<?=BASE_URL('public/AdminLTE3/');?>plugins/jqvmap/jqvmap.min.css">
     <!-- summernote -->
     <link rel="stylesheet" href="<?=BASE_URL('public/AdminLTE3/');?>plugins/summernote/summernote-bs4.css">
     <!-- Sparkline -->
     <script src="<?=BASE_URL('public/AdminLTE3/');?>plugins/sparklines/sparkline.js"></script>
+    <!-- CodeMirror -->
+    <link rel="stylesheet" href="<?=BASE_URL('public/AdminLTE3/');?>plugins/codemirror/codemirror.css">
+    <link rel="stylesheet" href="<?=BASE_URL('public/AdminLTE3/');?>plugins/codemirror/theme/monokai.css">
+
     <!-- jQuery -->
     <script src="<?=base_url('public/js/jquery-3.6.0.js');?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>

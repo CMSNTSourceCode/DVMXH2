@@ -68,7 +68,7 @@ require_once(__DIR__.'/sidebar.php');
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                                    <img src="<?=base_url('public/themesbrand/');?>images/users/avatar-1.jpg"
+                                    <img src="<?=base_url('assets/img/icon-avatar.png');?>"
                                         class="rounded-circle avatar-xl img-thumbnail user-profile-image"
                                         alt="user-profile-image">
                                 </div>
@@ -107,25 +107,25 @@ require_once(__DIR__.'/sidebar.php');
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
                                         <i class="fas fa-home"></i>
-                                        <?=__('Thông Tin Cá Nhân');?>
+                                        <?=__('Thông tin cá nhân');?>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab">
                                         <i class="far fa-user"></i>
-                                        <?=__('Thay Đổi Mật Khẩu');?>
+                                        <?=__('Thay đổi mật khẩu');?>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" href="#logs" role="tab">
                                         <i class="ri-history-line"></i>
-                                        <?=__('Nhật Ký Hoạt Động');?>
+                                        <?=__('Nhật ký hoạt động');?>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" href="#dongtien" role="tab">
                                         <i class="las la-money-check-alt"></i>
-                                        <?=__('Biến Động Số Dư');?>
+                                        <?=__('Biến động số dư');?>
                                     </a>
                                 </li>
                             </ul>

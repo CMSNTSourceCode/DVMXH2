@@ -45,7 +45,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-thumbs-up"></i>
                                 <p>
-                                    Dịch vụ Order
+                                    Quản lý dịch vụ
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -82,11 +82,11 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item <?=menuopen_sidebar(['auto-bank', 'auto-momo', 'logs', 'dong-tien', 'nap-the']);?>">
+                        <li class="nav-item <?=menuopen_sidebar(['auto-bank', 'auto-momo', 'logs', 'dong-tien', 'nap-the', 'paypal']);?>">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-history"></i>
                                 <p>
-                                    Lịch Sử
+                                    Lịch sử
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -126,6 +126,13 @@
                                         <p>Lịch sử nạp auto momo</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="<?=base_url_admin('paypal');?>"
+                                        class="nav-link <?=active_sidebar(['paypal']);?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Lịch sử Nạp PayPal</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -133,7 +140,25 @@
                                 class="nav-link <?=active_sidebar(['bank-list', 'bank-edit']);?>">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
-                                    Ngân Hàng
+                                    Ngân hàng
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?=BASE_URL('admin/domain-list');?>"
+                                class="nav-link <?=active_sidebar(['domain-list']);?>">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>
+                                    QL website riêng
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?=BASE_URL('admin/rank-list');?>"
+                                class="nav-link <?=active_sidebar(['rank-list']);?>">
+                                <i class="nav-icon fas fa-layer-group"></i>
+                                <p>
+                                    QL cấp bậc
                                 </p>
                             </a>
                         </li>
@@ -147,11 +172,29 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?=base_url_admin('language-list');?>"
+                                class="nav-link <?=active_sidebar(['language-list','language-add', 'language-edit', 'translate-list']);?>">
+                                <i class="nav-icon fas fa-language"></i>
+                                <p>
+                                    Ngôn Ngữ
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?=BASE_URL('admin/theme');?>"
                                 class="nav-link <?=active_sidebar(['theme']);?>">
                                 <i class="nav-icon fas fa-image"></i>
                                 <p>
                                     Giao diện
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?=BASE_URL('admin/connect-api');?>"
+                                class="nav-link <?=active_sidebar(['connect-api']);?>">
+                                <i class="nav-icon fas fa-wifi"></i>
+                                <p>
+                                    Kết nối API
                                 </p>
                             </a>
                         </li>

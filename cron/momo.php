@@ -9,14 +9,17 @@
     $CMSNT = new DB();
     $user = new users();
 
-
+    
     /* START CHỐNG SPAM */
-    if (time() > $CMSNT->site('check_time_cron_momo')) {
-        if (time() - $CMSNT->site('check_time_cron_momo') < 5) {
-            die('Thao tác quá nhanh, vui lòng đợi');
+    if (time() > getRowRealtime('cronjobs', 1, 'update_time')) {
+        if (time() - getRowRealtime('cronjobs', 1, 'update_time') < $config['max_time_load']) {
+            die(json_encode(['status' => 'error', 'msg' => __('Thao tác quá nhanh, vui lòng đợi')]));
         }
     }
-    $CMSNT->update("settings", ['value' => time()], " `name` = 'check_time_cron_momo' ");
+    $CMSNT->update("cronjobs", ['update_time' => time()], " `id` = 1 ");
+
+
+
     /* END CHỐNG SPAM */
     if ($CMSNT->site('status_momo') != 1) {
         die('Chức năng đang bảo trì.');
@@ -24,6 +27,8 @@
     if ($CMSNT->site('token_momo') == '') {
         die('Thiếu Token Momo');
     }
+
+
     $result = curl_get("https://api.web2m.com/historyapimomo1h/".$CMSNT->site('token_momo'));
     $result = json_decode($result, true);
     foreach ($result['momoMsg']['tranList'] as $data) {
@@ -50,6 +55,7 @@
                     $received = checkPromotion($amount);
                     $isCong = $user->AddCredits($getUser['id'], $received, "Nạp tiền tự động qua ví MOMO (#$tranId - $amount - $comment - $partnerId - $partnerName)");
                     if($isCong){
+                        $CMSNT->cong("users", "total_money", $amount, " `id` = '".$getUser['id']."' ");
                         echo '[<b style="color:green">-</b>] Xử lý thành công 1 hoá đơn.'.PHP_EOL;
                     }
                 }

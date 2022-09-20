@@ -1,4 +1,4 @@
-<!-- Dev By CMSNT.VN | FB.COM/CMSNT.CO | ZALO.ME/0947838128 | MMO Solution -->
+<!-- DEVELOPER BY CMSNT.CO | FB.COM/CMSNT.CO | ZALO.ME/0947838128 | MMO Solution -->
 <?php
 define("IN_SITE", true);
 require_once(__DIR__.'/libs/db.php');
@@ -11,7 +11,10 @@ if ($CMSNT->site('status') != 1 && !isset($_SESSION['admin_login'])) {
     exit();
 }
 $module = !empty($_GET['module']) ? check_string($_GET['module']) : 'client';
-$action = !empty($_GET['action']) ? check_string($_GET['action']) : 'home';
+$home   = $module == 'client' ? $CMSNT->site('home_page') : 'home';
+$action = !empty($_GET['action']) ? check_string($_GET['action']) : $home;
+
+
 if($action == 'footer' || $action == 'header' || $action == 'sidebar' || $action == 'nav'):
     require_once(__DIR__.'/views/common/404.php');
     exit();
@@ -25,3 +28,4 @@ if (file_exists($path)) {
     exit();
 }
 ?>
+<!-- Dev By CMSNT.CO | FB.COM/CMSNT.CO | ZALO.ME/0947838128 | MMO Solution -->

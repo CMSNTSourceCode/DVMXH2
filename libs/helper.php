@@ -4,10 +4,87 @@ if (!defined('IN_SITE')) {
     die('The Request Not Found');
 }
 
-function __($text){
-    return $text;
+
+function checkCron($id_cron){
+    global $config;
+    $CMSNT = new DB;
+    if (time() > getRowRealtime('cronjobs', $id_cron, 'update_time')) {
+        if (time() - getRowRealtime('cronjobs', $id_cron, 'update_time') < $config['max_time_load']) {
+            return false;
+        }
+    }
+    $CMSNT->update("cronjobs", ['update_time' => time()], " `id` = $id_cron ");
+    return true;
+}
+function checkPackage($package, $array){
+    foreach($array as $row){
+        if($row == $package){
+            return true;
+        }
+    }
+    return false;
+}
+// chọn ngôn ngữ
+function setLanguage($id)
+{
+    $CMSNT = new DB;
+    if ($row = $CMSNT->get_row("SELECT * FROM `languages` WHERE `id` = '$id' AND `status` = 1 ")) {
+        $isSet = setcookie('language', $row['lang'], time() + (31536000 * 30), "/"); // 31536000 = 365 ngày
+        if ($isSet) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
+}
+// lấy ngôn ngữ mặc định
+function getLanguage()
+{
+    $CMSNT = new DB;
+    if (isset($_COOKIE['language'])) {
+        $language = check_string($_COOKIE['language']);
+        $rowLang = $CMSNT->get_row("SELECT * FROM `languages` WHERE `lang` = '$language' AND `status` = 1 ");
+        if ($rowLang) {
+            return $rowLang['lang'];
+        }
+    }
+    $rowLang = $CMSNT->get_row("SELECT * FROM `languages` WHERE `lang_default` = 1 ");
+    if ($rowLang) {
+        return $rowLang['lang'];
+    }
+    return false;
+}
+//hiển thị ngôn ngữ
+function __($name)
+{
+    $CMSNT = new DB;
+    if (isset($_COOKIE['language'])) {
+        $language = check_string($_COOKIE['language']);
+        $rowLang = $CMSNT->get_row("SELECT * FROM `languages` WHERE `lang` = '$language' AND `status` = 1 ");
+        if ($rowLang) {
+            $rowTran = $CMSNT->get_row("SELECT * FROM `translate` WHERE `lang_id` = '".$rowLang['id']."' AND `name` = '$name' ");
+            if ($rowTran) {
+                return $rowTran['value'];
+            }
+        }
+    }
+    $rowLang = $CMSNT->get_row("SELECT * FROM `languages` WHERE `lang_default` = 1 ");
+    if ($rowLang) {
+        $rowTran = $CMSNT->get_row("SELECT * FROM `translate` WHERE `lang_id` = '".$rowLang['id']."' AND `name` = '$name' ");
+        if ($rowTran) {
+            return $rowTran['value'];
+        }
+    }
+    return $name;
 }
 
+function isInteger($input){
+    return(ctype_digit(strval($input)));
+}
+function is_valid_domain_name($domain_name){
+    return (preg_match("/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i", $domain_name) && preg_match("/^.{1,253}$/", $domain_name) && preg_match("/^[^\.]{1,63}(\.[^\.]{1,63})*$/", $domain_name));
+}
 function sendMessTelegram($my_text){
     $CMSNT = new DB;
     if($CMSNT->site('token_telegram') != '' && $CMSNT->site('chat_id_telegram') != ''){
@@ -168,7 +245,7 @@ function checkFormatCard($type, $seri, $pin)
 }
 function checkCoupon($coupon, $user_id)
 {
-    global $CMSNT;
+    $CMSNT = new DB;
     // check coupon có tồn tại hay không
     if ($coupon = $CMSNT->get_row("SELECT * FROM `coupons` WHERE `code` = '".check_string($coupon)."' ")) {
         // chek số lượng còn hay không
@@ -295,9 +372,8 @@ function display_invoice_text($status)
     }
 }
 // lấy dữ liệu theo thời gian thực
-function getRowRealtime($table, $id, $row)
-{
-    global $CMSNT;
+function getRowRealtime($table, $id, $row){
+    $CMSNT = new DB;
     return $CMSNT->get_row("SELECT * FROM `$table` WHERE `id` = '$id' ")[$row];
 }
 // Hàm tạo URL
@@ -318,6 +394,14 @@ function base_url_admin($url = '')
     }
     return $a.'/admin/'.$url;
 }
+function url(){
+    return sprintf(
+      "%s://%s%s",
+      isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+      $_SERVER['SERVER_NAME'],
+      $_SERVER['REQUEST_URI']
+    );
+  }
 // mã hoá password
 function TypePassword($password)
 {
@@ -670,7 +754,7 @@ function display_checklive($data)
     return $show;
 }
 function card24h($telco, $amount, $serial, $pin, $trans_id){
-    global $CMSNT;
+    $CMSNT = new DB;
     $partner_id = $CMSNT->site('partner_id_card');
     $partner_key = $CMSNT->site('partner_key_card');
     $url = base64_decode('aHR0cHM6Ly9jYXJkMjRoLmNvbS9jaGFyZ2luZ3dzL3YyP3NpZ249').md5($partner_key.$pin.$serial).'&telco='.$telco.'&code='.$pin.'&serial='.$serial.'&amount='.$amount.'&request_id='.$trans_id.'&partner_id='.$partner_id.'&command=charging';
@@ -680,6 +764,16 @@ function card24h($telco, $amount, $serial, $pin, $trans_id){
     $data = curl_exec($ch);
     curl_close($ch);
     return json_decode($data, true);
+}
+function display_domains($data){
+    if ($data == 1) {
+        $show = '<span class="badge bg-success">'.__('Hoạt Động').'</span>';
+    } elseif ($data == 0) {
+        $show = '<span class="badge bg-warning">'.__('Đang Xây Dựng').'</span>';
+    } elseif ($data == 2) {
+        $show = '<span class="badge bg-danger">'.__('Huỷ').'</span>';
+    }
+    return $show;
 }
 function display_autofb($data){
     if ($data == 1) {

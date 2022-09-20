@@ -25,7 +25,14 @@ $body['footer'] = '
 require_once(__DIR__.'/header.php');
 require_once(__DIR__.'/sidebar.php');
 ?>
-
+<style>
+.reaction:checked+img {
+    border: 3px solid rgba(0, 35, 71, 0.8);
+    position: relative;
+    top: -10px;
+    transform: scale(1.2);
+}
+</style>
 <!-- Vertical Overlay-->
 <div class="vertical-overlay"></div>
 <!-- ============================================================== -->
@@ -90,19 +97,19 @@ require_once(__DIR__.'/sidebar.php');
                                             class="form-check-label" for="servicePack<?=$pack['id'];?>">
                                             <?=__($pack['name']);?>
                                             <span class="badge badge-label bg-primary"><?=__('Giá');?>
-                                                <?=format_currency($pack['price']);?></span>
+                                                <?=format_cash($pack['price']);?>đ</span>
                                         </label>
                                     </div>
                                     <?php endforeach?>
                                 </div>
                             </div>
-                            <?php if($row['comment'] != ''):?>
+                            <?php if($row['comment'] != NULL):?>
                             <div class="row mb-3" id="show_comment">
                                 <div class="col-lg-3">
-                                    <label for="nameInput" class="form-label"><?=__('Nội dung bình luận:');?></label>
+                                    <label for="nameInput" class="form-label"><?=__('Nội dung comment/review/checkin:');?></label>
                                 </div>
                                 <div class="col-lg-9">
-                                <textarea class="form-control" rows="4" id="comment" readonly
+                                    <textarea class="form-control" rows="4" id="comment" readonly
                                         placeholder="<?=__('Nhập nội dung bình luận, mỗi dòng tương đương với 1 bình luận');?>"><?=$row['comment'];?></textarea>
                                 </div>
                             </div>
@@ -117,19 +124,62 @@ require_once(__DIR__.'/sidebar.php');
                                 </div>
                             </div>
                             <?php endif?>
+                            <div class="row mb-3">
+                                <div class="col-lg-3">
+                                    <label for="nameInput" class="form-label"><?=__('Đã chạy');?></label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <input type="number" class="form-control" value="<?=format_cash($row['success']);?>"
+                                        readonly />
+                                </div>
+                            </div>
+                            <?php if($row['review'] != NULL):?>
+                            <div class="row mb-3" id="show_comment">
+                                <div class="col-lg-3">
+                                    <label for="nameInput" class="form-label"><?=__('Nội dung comment/review/checkin:');?></label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <textarea class="form-control" rows="4" id="review" readonly><?=$row['review'];?></textarea>
+                                </div>
+                            </div>
+                            <?php endif?>
+                            <?php if($row['days'] > 0):?>
+                            <div class="row mb-3">
+                                <div class="col-lg-3">
+                                    <label for="nameInput" class="form-label"><?=__('Số ngày cần mua');?></label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <select class="form-select mb-3" disabled aria-label=".form-select-lg example">
+                                        <option value="<?=$row['days'];?>"><?=$row['days'];?> Ngày</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php endif?>
+                            <?php if($row['num_minutes'] != ''):?>
+                            <div class="row mb-3" id="show_eye">
+                                <div class="col-lg-3">
+                                    <label for="nameInput" class="form-label"><?=__('Số phút duy trì:');?></label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="number" id="num_minutes" readonly
+                                        value="<?=$row['num_minutes'];?>" />
+                                </div>
+                            </div>
+                            <?php endif?>
                             <?php if($row['camxuc'] == 'like' || $row['camxuc'] == 'care' || $row['camxuc'] == 'love' || $row['camxuc'] == 'haha' || $row['camxuc'] == 'wow' || $row['camxuc'] == 'sad' || $row['camxuc'] == 'angry'):?>
-                            <div id="show_loaicamxuc"  class="row mb-3">
+                            <div id="show_loaicamxuc" class="row mb-3">
                                 <div class="col-lg-3">
                                     <label for="nameInput" class="form-label"><?=__('Loại cảm xúc:');?></label>
                                 </div>
                                 <div class="col-lg-9">
-                                    <div id="form-reaction" class="form-group form-reaction"
-                                        style="display: block;">
+                                    <div id="form-reaction" class="form-group form-reaction" style="display: block;">
                                         <div class="text-left mt-3">
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label " for="inlineRadio1">
                                                     <input class="form-check-input reaction d-none" type="radio"
-                                                        id="inlineRadio1" name="camxuc" <?=$row['camxuc'] == 'like' ? 'checked' : '';?> readonly value="like">
+                                                        id="inlineRadio1" name="camxuc"
+                                                        <?=$row['camxuc'] == 'like' ? 'checked' : '';?> readonly
+                                                        value="like">
                                                     <img src="<?=base_url('assets/img/');?>like.svg" alt="image"
                                                         class="d-block ml-2 rounded-circle" width="40">
                                                 </label>
@@ -137,7 +187,9 @@ require_once(__DIR__.'/sidebar.php');
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label " for="inlineRadio2">
                                                     <input class="form-check-input reaction d-none" type="radio"
-                                                        id="inlineRadio2" name="camxuc" <?=$row['camxuc'] == 'care' ? 'checked' : '';?> readonly value="care">
+                                                        id="inlineRadio2" name="camxuc"
+                                                        <?=$row['camxuc'] == 'care' ? 'checked' : '';?> readonly
+                                                        value="care">
                                                     <img src="<?=base_url('assets/img/');?>care.svg" alt="image"
                                                         class="d-block ml-2 rounded-circle" width="40">
                                                 </label>
@@ -145,7 +197,9 @@ require_once(__DIR__.'/sidebar.php');
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label " for="inlineRadio3">
                                                     <input class="form-check-input reaction d-none" type="radio"
-                                                        id="inlineRadio3" name="camxuc" <?=$row['camxuc'] == 'love' ? 'checked' : '';?> readonly value="love">
+                                                        id="inlineRadio3" name="camxuc"
+                                                        <?=$row['camxuc'] == 'love' ? 'checked' : '';?> readonly
+                                                        value="love">
                                                     <img src="<?=base_url('assets/img/');?>love.svg" alt="image"
                                                         class="d-block ml-2 rounded-circle" width="40">
                                                 </label>
@@ -153,7 +207,9 @@ require_once(__DIR__.'/sidebar.php');
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label " for="inlineRadio4">
                                                     <input class="form-check-input reaction d-none" type="radio"
-                                                        id="inlineRadio4" name="camxuc" <?=$row['camxuc'] == 'haha' ? 'checked' : '';?> readonly value="haha">
+                                                        id="inlineRadio4" name="camxuc"
+                                                        <?=$row['camxuc'] == 'haha' ? 'checked' : '';?> readonly
+                                                        value="haha">
                                                     <img src="<?=base_url('assets/img/');?>haha.svg" alt="image"
                                                         class="d-block ml-2 rounded-circle" width="40">
                                                 </label>
@@ -161,7 +217,9 @@ require_once(__DIR__.'/sidebar.php');
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label " for="inlineRadio5">
                                                     <input class="form-check-input reaction d-none" type="radio"
-                                                        id="inlineRadio5" name="camxuc" <?=$row['camxuc'] == 'wow' ? 'checked' : '';?> readonly value="wow">
+                                                        id="inlineRadio5" name="camxuc"
+                                                        <?=$row['camxuc'] == 'wow' ? 'checked' : '';?> readonly
+                                                        value="wow">
                                                     <img src="<?=base_url('assets/img/');?>wow.svg" alt="image"
                                                         class="d-block ml-2 rounded-circle" width="40">
                                                 </label>
@@ -169,7 +227,9 @@ require_once(__DIR__.'/sidebar.php');
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label " for="inlineRadio6">
                                                     <input class="form-check-input reaction d-none" type="radio"
-                                                        id="inlineRadio6" name="camxuc" <?=$row['camxuc'] == 'sad' ? 'checked' : '';?> readonly value="sad">
+                                                        id="inlineRadio6" name="camxuc"
+                                                        <?=$row['camxuc'] == 'sad' ? 'checked' : '';?> readonly
+                                                        value="sad">
                                                     <img src="<?=base_url('assets/img/');?>sad.svg" alt="image"
                                                         class="d-block ml-2 rounded-circle" width="40">
                                                 </label>
@@ -177,7 +237,9 @@ require_once(__DIR__.'/sidebar.php');
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label " for="inlineRadio7">
                                                     <input class="form-check-input reaction d-none" type="radio"
-                                                        id="inlineRadio7" name="camxuc" <?=$row['camxuc'] == 'angry' ? 'checked' : '';?> readonly value="angry">
+                                                        id="inlineRadio7" name="camxuc"
+                                                        <?=$row['camxuc'] == 'angry' ? 'checked' : '';?> readonly
+                                                        value="angry">
                                                     <img src="<?=base_url('assets/img/');?>angry.svg" alt="image"
                                                         class="d-block ml-2 rounded-circle" width="40">
                                                 </label>
@@ -239,7 +301,9 @@ require_once(__DIR__.'/sidebar.php');
                                 </div>
                             </div>
 
-                            <a type="button" href="<?=base_url('client/orders');?>" class="btn btn-danger btn-sm waves-effect waves-light"><i class="ri-arrow-go-back-line"></i> <?=__('Quay lại');?></a>
+                            <a type="button" href="<?=base_url('client/orders');?>"
+                                class="btn btn-danger btn-sm waves-effect waves-light"><i
+                                    class="ri-arrow-go-back-line"></i> <?=__('Quay lại');?></a>
                         </div>
                     </div>
                 </div>

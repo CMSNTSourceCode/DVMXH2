@@ -57,6 +57,7 @@ if (isset($_POST['SaveService'])) {
         'name'          => check_string($_POST['name']),
         'slug'          => create_slug(check_string($_POST['name'])),
         'content'       => base64_encode($_POST['content']),
+        'notification'   => check_string($_POST['notification']),
         'category_id'   => check_string($_POST['category_id']),
         'text_input'            => check_string($_POST['text_input']),
         'text_placeholder'      => check_string($_POST['text_placeholder']),
@@ -156,9 +157,13 @@ if (isset($_POST['SaveService'])) {
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Mô tả</label>
+                                    <label for="exampleInputEmail1">Lưu ý</label>
                                     <textarea id="content"
                                         name="content"><?=base64_decode($row['content']);?></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Thông báo</label>
+                                    <input class="form-control" type="text" placeholder="Nhập thông báo nổi nếu có" value="<?=$row['notification'];?>" name="notification">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Trạng thái</label>

@@ -192,8 +192,7 @@ require_once(__DIR__.'/sidebar.php');
         </div>
     </div>
     <!-- container-fluid -->
-</div>
-<!-- End Page-content -->
+ 
 
 
 <?php require_once(__DIR__.'/footer.php');?>
